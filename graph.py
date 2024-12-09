@@ -388,20 +388,43 @@ def create_graph(data):
     """
 
     # split the data by new line
+    lines = data.split("\n")
 
     # get size of image and number of vertices
+    image_size = int(lines[0])
+    num_vertices_line = lines[1]
+    num_vertices = int(num_vertices_line)
 
     # create the ImageGraph
+    graph = ImageGraph(image_size)
 
     # create vertices - vertex info has the format "x,y,color"
+    for i in range(2, 2 + num_vertices):
+        vertex_data = lines[i].split(",")  
+        x_value = int(vertex_data[0]) 
+        y_value = int(vertex_data[1])  
+        color_value = vertex_data[2]   
+        vertex = ColoredVertex(i - 2, x_value, y_value, color_value)  
+        graph.vertices.append(vertex)  
 
     # create edges between vertices - edge info has the format "from_index,to_index"
     # connect vertex A to vertex B and the other way around
+    num_edges_line = lines[2 + num_vertices]
+    num_edges = int(num_edges_line)
+    for i in range(3 + num_vertices, 3 + num_vertices + num_edges):
+        edge_data = lines[i].split(",")
+        from_index = int(edge_data[0])
+        to_index = int(edge_data[1]) 
+        graph.vertices[from_index].add_edge(to_index) 
+        graph.vertices[to_index].add_edge(from_index)  
 
     # read search starting position and color
-
+    bucket_fill_data = lines[3 + num_vertices + num_edges].split(",")
+    start_pos = int(bucket_fill_data[0])
+    search_color = bucket_fill_data[1]
+ 
     # return the ImageGraph, starting position, and color as a tuple in this order.
-    raise NotImplementedError("Remove this exception and implement create_graph here.")
+    return graph, start_pos, search_color
 
 
 # TODO: Modify this function. You may delete this comment when you are done.
