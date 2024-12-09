@@ -267,8 +267,8 @@ class ImageGraph:
 
         for vertex in self.vertices:
             for adjacent_vertex in vertex.edges:
-                adjacency_matrix[vertex.index][adjacent_vertex.index] = 1  
-                adjacency_matrix[adjacent_vertex.index][vertex.index] = 1  
+                adjacency_matrix[vertex.index][adjacent_vertex] = 1  
+                adjacency_matrix[adjacent_vertex][vertex.index] = 1  
 
         return adjacency_matrix
 
